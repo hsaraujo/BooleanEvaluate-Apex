@@ -3,21 +3,21 @@ Apex code for boolean expression evaluation
 # Usage:
 This class has 2 different constructors with 2 methods each.
 
-# First:
+### First:
 ```java
 public BooleanEvaluate(String expression, Boolean[] values){ ... }
 ```
 So, the parameter 'expression' must be using ordinal numbers related to the parameter 'values'  (Examples below)
 
-# Second:
+### Second:
 ```java
 public BooleanEvaluate(String expression, String[] arguments){ ... }
 ```
 So, the parameter 'expression' must be using arument numbers (preffixed with $) related to the parameter 'arguments' (Examples below)
 
-######################## EXAMPLES #########################
+# EXAMPLES
 
-# First Example:
+### First:
 
 ```java
 List<Boolean> values = new List<Boolean>{
@@ -28,7 +28,7 @@ BooleanEvaluate boolEval = new BooleanEvaluate('1 && ( ( 2 || 3 ) && 6 ) && ( 4 
 boolEval.evaluate();
 ```
 
-# Second Example:
+### Second:
 
 ```java
 List<Boolean> values = new List<Boolean>{
