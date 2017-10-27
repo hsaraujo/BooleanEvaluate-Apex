@@ -4,25 +4,29 @@
 
 public with sharing class BooleanEvaluate {
 
-    private String expression;
-    private Boolean[] values;
-    private String finalExpression;
-
     private static final String ANDv = 'AND';
     private static final String ORv = 'OR';
     private static final String OPEN = '(';
     private static final String CLOSE = ')';
 
+    private String expression;
+    private Boolean[] values;
+    private String finalExpression;
+
     public BooleanEvaluate(String expression, Boolean[] values){
 
-//        this.expression = expression;
         this.expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
-        this.values = values;
+        this.formatExpression();
+    }
+
+    public BooleanEvaluate(String expression, String[] arguments){
+
+        expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
+        this.expression = String.format( expression , arguments );
     }
 
     public void evaluate(){
 
-        manageExpression();
         evaluate(this.expression);
         System.debug(this.expression);
         System.debug(this.finalExpression);
@@ -82,9 +86,9 @@ public with sharing class BooleanEvaluate {
 
     }
 
-    private void manageExpression(){
+    private void formatExpression(){
 
-        String[] arguments = expression.split(' ');
+        String[] arguments = this.expression.split(' ');
         for(String arg : arguments){
             try{
                 Integer index = Integer.valueOf(arg);
