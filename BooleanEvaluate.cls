@@ -16,6 +16,7 @@ public with sharing class BooleanEvaluate {
     public BooleanEvaluate(String expression, Boolean[] values){
 
         this.expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
+        this.values = values
         this.formatExpression();
     }
 
