@@ -11,10 +11,10 @@ public with sharing class BooleanEvaluate {
 
     private String expression;
     private Boolean[] values;
-    private String finalExpression;
 
     public BooleanEvaluate(String expression, Boolean[] values){
 
+        this.values = values;
         this.expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
         this.formatExpression();
     }
@@ -25,20 +25,15 @@ public with sharing class BooleanEvaluate {
         this.expression = String.format( expression , arguments );
     }
 
-    public void evaluate(){
+    public Boolean evaluate(){
 
-        evaluate(this.expression);
-        System.debug(this.expression);
-        System.debug(this.finalExpression);
-        System.debug(evaluateExpression(this.finalExpression));
-
+        return evaluate(this.expression);
     }
 
-    private void evaluate(String expression){
-
+    private Boolean evaluate(String expression){
+        
         if(!expression.contains(OPEN)){
-            this.finalExpression = expression;
-            return;
+            return evaluateExpression(expression);
         }
 
         Integer indexOfOpen = -1;
@@ -62,11 +57,7 @@ public with sharing class BooleanEvaluate {
 
         String replace = expression.substring(indexOfOpen + 1 , indexOfClose);
         expression = expression.replace( OPEN + replace + CLOSE, String.valueOf( evaluateExpression(replace) ) );
-        System.debug(replace);
-        System.debug(expression);
-        System.debug('########');
-        evaluate(expression);
-
+        return evaluate(expression);
     }
 
     private Boolean evaluateExpression(String expression){
@@ -97,7 +88,5 @@ public with sharing class BooleanEvaluate {
                 continue;
             }
         }
-
-        System.debug(this.expression);
     }
 }
