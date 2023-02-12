@@ -31,14 +31,10 @@ Boolean result = boolEval.evaluate(); // true
 ### Second:
 
 ```java
-List<Boolean> values = new List<Boolean>{
-true, false, true, true, false, true, true, true
+List<String> values = new List<String>{
+'true', 'false', 'true', 'true', 'false', 'true', 'true', 'true'
 };
 
-String[] strValues = new String[values.size()];
-for(Boolean b : values)
-    strValues.add(String.valueOf(b));
-
-BooleanEvaluate stringEval = new BooleanEvaluate('$1 && ( ( $2 || $3 ) && $6 ) && ( $4 && $5 || ( $7 && $8 ) )', strValues);
+BooleanEvaluate stringEval = new BooleanEvaluate('$1 && ( ( $2 || $3 ) && $6 ) && ( $4 && $5 || ( $7 && $8 ) )', values);
 Boolean result = stringEval.evaluate(); // false
 ```
