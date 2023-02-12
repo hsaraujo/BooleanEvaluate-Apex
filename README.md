@@ -25,7 +25,7 @@ true, false, true, true, false, true, true, true
 };
 
 BooleanEvaluate boolEval = new BooleanEvaluate('1 && ( ( 2 || 3 ) && 6 ) && ( 4 && 5 || ( 7 && 8 ) )', values);
-boolEval.evaluate();
+Boolean result = boolEval.evaluate();
 ```
 
 ### Second:
@@ -40,5 +40,5 @@ for(Boolean b : values)
     strValues.add(String.valueOf(b));
 
 BooleanEvaluate stringEval = new BooleanEvaluate('$1 && ( ( $2 || $3 ) && $6 ) && ( $4 && $5 || ( $7 && $8 ) )', strValues);
-stringEval.evaluate();
+Boolean result = stringEval.evaluate();
 ```
