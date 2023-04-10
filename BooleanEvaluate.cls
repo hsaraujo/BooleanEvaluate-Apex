@@ -16,6 +16,7 @@ public with sharing class BooleanEvaluate {
 
         this.values = values;
         this.expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
+        this.values = values
         this.formatExpression();
     }
 
