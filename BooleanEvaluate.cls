@@ -2,36 +2,23 @@
  * @author: Heitor Araujo on 24/10/2017.
  */
 
-public with sharing class BooleanEvaluate {
+ public with sharing class BooleanEvaluate {
 
     private static final String ANDv = 'AND';
     private static final String ORv = 'OR';
     private static final String OPEN = '(';
     private static final String CLOSE = ')';
 
-    private String expression;
-    private Boolean[] values;
-
-    public BooleanEvaluate(String expression, Boolean[] values){
-
-        this.values = values;
-        this.expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
-        this.formatExpression();
-    }
-
-    public BooleanEvaluate(String expression, String[] arguments){
-
+    /**
+     * @description Evaluates a boolean expression to a boolean result
+     * @param expression Expression [eg. `1 || ( 2 && 3 )` ]
+     * @param values List of boolean values to be evaluated with the expression
+     * @return final boolean evaluation
+     */
+    public static Boolean evaluate(String expression, Boolean[] values){
         expression = expression.replaceAll('\\|\\|', 'OR').replaceAll('&&', 'AND');
-        this.expression = String.format( expression , arguments );
-    }
+        expression = formatExpression(expression, values);
 
-    public Boolean evaluate(){
-
-        return evaluate(this.expression);
-    }
-
-    private Boolean evaluate(String expression){
-        
         if(!expression.contains(OPEN)){
             return evaluateExpression(expression);
         }
@@ -57,10 +44,10 @@ public with sharing class BooleanEvaluate {
 
         String replace = expression.substring(indexOfOpen + 1 , indexOfClose);
         expression = expression.replace( OPEN + replace + CLOSE, String.valueOf( evaluateExpression(replace) ) );
-        return evaluate(expression);
+        return evaluate(expression, values);
     }
 
-    private Boolean evaluateExpression(String expression){
+    private static Boolean evaluateExpression(String expression){
 
         Boolean result = false;
         for( String conj : expression.split(ORv) ){
@@ -77,16 +64,18 @@ public with sharing class BooleanEvaluate {
 
     }
 
-    private void formatExpression(){
+    private static String formatExpression(String originalExpression, Boolean[] values){
 
-        String[] arguments = this.expression.split(' ');
+        String formattedExpression = originalExpression;
+        String[] arguments = formattedExpression.split(' ');
         for(String arg : arguments){
             try{
                 Integer index = Integer.valueOf(arg);
-                this.expression = this.expression.replace(arg, String.valueOf(this.values[index - 1]));
+                formattedExpression = formattedExpression.replace(arg, String.valueOf(values[index - 1]));
             }catch(Exception e){
                 continue;
             }
         }
+        return formattedExpression;
     }
 }
